@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Murtuza Rangwala - Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+
+        :root {
+            --bg-dark: #0a0a0a;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --accent: #d4af37;
+            --text-main: #f4f4f4;
+            --text-muted: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(circle at 15% 50%, rgba(212, 175, 55, 0.05), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(255, 255, 255, 0.02), transparent 25%);
+        }
+
+        container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 100px 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            border-color: rgba(212, 175, 55, 0.3);
+        }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            border-bottom: none;
+        }
+
+        .hero-content img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        .hero h1 { font-size: 4rem; margin-bottom: 10px; }
+        .hero h2 { font-size: 1.5rem; color: var(--text-muted); margin-bottom: 20px; font-weight: 300; }
+        
+        .tagline {
+            font-size: 1.2rem;
+            font-style: italic;
+            color: var(--accent);
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            margin: 0 10px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary { background: var(--accent); color: #000; border: 1px solid var(--accent); }
+        .btn-primary:hover { background: transparent; color: var(--accent); box-shadow: 0 0 15px rgba(212, 175, 55, 0.4); }
+        
+        .btn-secondary { background: transparent; color: var(--text-main); border: 1px solid var(--glass-border); }
+        .btn-secondary:hover { border-color: var(--text-main); background: rgba(255, 255, 255, 0.05); }
+
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .timeline { border-left: 2px solid var(--glass-border); padding-left: 30px; margin-left: 20px; }
+        .timeline-item { position: relative; margin-bottom: 40px; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -37px; top: 5px; width: 12px; height: 12px;
+            background: var(--accent); border-radius: 50%; box-shadow: 0 0 10px var(--accent);
+        }
+        .timeline-date { color: var(--accent); font-size: 0.9rem; margin-bottom: 5px; display: block; }
+
+        .chart-container { position: relative; height: 300px; width: 100%; }
+
+        footer { text-align: center; padding: 50px 20px; color: var(--text-muted); }
+        .social-icons a { color: var(--text-main); font-size: 1.5rem; margin: 0 15px; transition: color 0.3s; }
+        .social-icons a:hover { color: var(--accent); }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <img src="profile.png" alt="Profile Image">
+            <h1>Murtuza Rangwala </h1>
+            <h2>Business & Financial Analyst </h2>
+            <p class="tagline">"Blending Finance, Data Analytics, and Strategy to drive measurable impact"</p>
+            <div>
+                <a href="#contact" class="btn btn-primary">Contact Me</a>
+                <a href="https://linkedin.com/in/murtaza-rangwala-856456102" target="_blank" class="btn btn-secondary"><i class="fab fa-linkedin"></i> LinkedIn </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <container class="grid-2" style="align-items: center; max-width: 1000px; margin: auto;">
+            <div>
+                <h2 style="font-size: 2.5rem; margin-bottom: 20px;">About Me</h2>
+                <p style="font-size: 1.1rem; color: var(--text-muted);">
+                    Master’s student in Economics & Data Analysis with experience in financial analysis, econometrics, and business strategy . Skilled in Python, SQL, and data-driven decision making .
+                </p>
+            </div>
+            <div class="glass-card" style="text-align: center;">
+                <h3>Core Competencies</h3>
+                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px;">
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Python </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">SQL </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">R </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Excel </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Power BI </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Financial Modeling </span>
+                    <span class="btn btn-secondary" style="padding: 5px 15px; font-size: 0.8rem;">Econometrics </span>
+                </div>
+            </div>
+        </container>
+    </section>
+
+    <section id="experience">
+        <container style="max-width: 900px; margin: auto;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center;">Professional Experience</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-date">Sep 2025 – Jan 2026 </span>
+                    <h3>Business Analyst </h3>
+                    <h4 style="color: var(--text-muted);">Dimitra International </h4>
+                    <p style="margin-top: 10px; font-size: 0.95rem; color: #ccc;">
+                        Analyzed datasets using SQL and Excel. Automated workflows to reduce reporting time .
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2020 – 2022 </span>
+                    <h3>Operations & Business Analyst </h3>
+                    <h4 style="color: var(--text-muted);">Mohamedally Akbarally & Co. </h4>
+                    <p style="margin-top: 10px; font-size: 0.95rem; color: #ccc;">
+                        Increased customer retention by 15% and improved operational efficiency by 20% . Reduced inventory shortages by 10% .
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date">2020 </span>
+                    <h3>Equity Dealer </h3>
+                    <h4 style="color: var(--text-muted);">Motilal Oswal Financial Services Ltd. </h4>
+                    <p style="margin-top: 10px; font-size: 0.95rem; color: #ccc;">
+                        Supported equity trade execution. Executed and monitored trades in derivatives (futures & options) .
+                    </p>
+                </div>
+            </div>
+        </container>
+    </section>
+
+    <section id="projects">
+        <container style="max-width: 1200px; margin: auto;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center;">Key Projects</h2>
+            <div class="grid-3">
+                <div class="glass-card">
+                    <i class="fas fa-chart-pie" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3>Household Financial Participation </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
+                        Built Probit and Logit models to analyze stock market participation. Estimated marginal effects of demographics on inclusion .
+                    </p>
+                </div>
+                <div class="glass-card">
+                    <i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3>SME Growth Analysis </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
+                        Evaluated impact of credit availability and GDP growth using panel data and econometric modeling .
+                    </p>
+                </div>
+                <div class="glass-card">
+                    <i class="fas fa-file-invoice-dollar" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3>Financial Forecasting </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
+                        Developed time-series models to forecast firm revenue and earnings .
+                    </p>
+                </div>
+                <div class="glass-card">
+                    <i class="fas fa-laptop-code" style="font-size: 2rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3>Analytics Dashboard </h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 10px;">
+                        Cleaned large datasets using Pandas/NumPy. Delivered insights to support business decision-making .
+                    </p>
+                </div>
+            </div>
+        </container>
+    </section>
+
+    <section id="certifications">
+        <container style="max-width: 1200px; margin: auto;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 40px; text-align: center;">Certifications & Virtual Experiences</h2>
+            <div class="grid-3">
+                
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-certificate" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">NISM Series VIII </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Equity Derivatives Certification (SEBI) </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-building" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">JPMorgan Chase </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Investment Banking Simulation (Forage) </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-university" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Financial Markets </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Yale University (Coursera) </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-chart-line" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Stock Valuation </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Coursera </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-chart-pie" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Google Analytics </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">Coursera </p>
+                </div>
+
+                <div class="glass-card" style="text-align: center;">
+                    <i class="fas fa-table" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 15px;"></i>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 10px;">Excel Financial Functions </h3>
+                    <p style="color: var(--text-muted); font-size: 0.95rem;">LinkedIn Learning </p>
+                </div>
+
+            </div>
+        </container>
+    </section>
+
+    <section id="contact" style="border-bottom: none;">
+        <container style="max-width: 600px; margin: auto; text-align: center;">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px;">Get In Touch</h2>
+            <div class="glass-card">
+                <p style="font-size: 1.2rem; margin-bottom: 15px;"><i class="fas fa-envelope" style="color: var(--accent);"></i> murtuzarangwala8@gmail.com </p>
+                <p style="font-size: 1.2rem; margin-bottom: 15px;"><i class="fas fa-phone" style="color: var(--accent);"></i> +39 350 962 9833 </p>
+                <div class="social-icons" style="margin-top: 30px;">
+                    <a href="https://linkedin.com/in/murtaza-rangwala-856456102" target="_blank"><i class="fab fa-linkedin"></i></a> </div>
+            </div>
+        </container>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Murtuza Rangwala. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>
